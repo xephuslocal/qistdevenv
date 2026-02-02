@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qist - Modern payments meets ethical finance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(76, 175, 80, 0.15);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .decorative-line {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+            margin: 30px auto;
+        }
+
+        .stats-section {
+            margin: 40px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .stat-card2 {
+            background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .highlight-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-color: #ff9800;
+        }
+
+        .highlight-card .stat-number {
+            background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-footnote {
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .charts-section {
+            margin: 50px 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-container:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.15);
+        }
+
+        .chart-title {
+            color: #2E7D32;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 250px;
+        }
+
+        .about-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+            border-radius: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .about-title {
+            color: #2E7D32;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .about-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .mailing-section {
+            margin-top: 50px;
+        }
+
+        .mailing-title {
+            color: #2E7D32;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .mailing-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 16px 24px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .email-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .submit-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            color: #2E7D32;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(45deg, #4CAF50 0, #4CAF50 1px, transparent 0, transparent 50%),
+                repeating-linear-gradient(-45deg, #4CAF50 0, #4CAF50 1px, transparent 0, transparent 50%);
+            background-size: 30px 30px;
+        }
+
+        #hiddenFrame {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 25px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .highlight-card {
+                grid-column: 1 / -1;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pattern-bg"></div>
+    
+    <div class="container">
+        <h1 class="logo">Qist</h1>
+        <p class="tagline">Modern payments meets ethical finance</p>
+        
+        <div class="decorative-line"></div>
+
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="30" data-prefix="£" data-suffix="B">£0B</div>
+                    <div class="stat-label">UK BNPL market value in 2025</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-target="40" data-prefix="£" data-suffix="B+">£0B+</div>
+                    <div class="stat-label">Forecasted by 2030</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-target="33" data-prefix="" data-suffix="%" data-text="33%">0%</div>
+                    <div class="stat-label">UK adults used BNPL in 2025</div>
+                </div>
+                
+                <div class="stat-card2 highlight-card">
+                    <div class="stat-number" data-target="0">0</div>
+                    <div class="stat-label">Dedicated Shariah-compliant BNPL solutions for everyday retail in the UK</div>
+                    <div class="stat-footnote">While Klarna, Clearpay, and PayPal dominate the market</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Market Growth Projection</div>
+                    <div class="chart-wrapper">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Market Dominance</div>
+                    <div class="chart-wrapper">
+                        <canvas id="marketShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="about-title">About Us</h2>
+            <p class="about-text">
+                We believe no one should have to choose between financial convenience and their faith. Millions of Muslims want the flexibility of Buy Now, Pay Later but are locked out by interest, hidden fees, and terms that contradict their values. 
+            </p>
+            <p>
+                <br>
+            </p>
+             <p class="about-text">
+                We're building the UK's first Shariah compliant BNPL platform: one that lets you buy today and pay over time with complete transparency, no riba, no debt traps, and no ethical compromise. This isn't just about payments - it's about trust and inclusion in a financial system that has overlooked too many people for too long.
+            </p>
+        </div>
+
+        <div class="mailing-section">
+            <h2 class="mailing-title">Stay Connected</h2>
+            <p class="mailing-subtitle">Join our waiting list and help us shape the future of ethical finance. Together, we can build a fairer, more inclusive financial system, without compromise.</p>
+            
+            <form class="email-form" id="mailingForm" 
+                  action="https://docs.google.com/forms/d/e/1FAIpQLSe4ZbHJK6P_8uC9qCl1j7XAs4UyLg-Ii5jNubPwsCb3DnP6Mw/formResponse" 
+                  method="POST" 
+                  target="hiddenFrame">
+                <input 
+                    type="email" 
+                    class="email-input" 
+                    placeholder="Enter your email address" 
+                    required
+                    id="emailInput"
+                    name="entry.1108286257"
+                >
+                <button type="submit" class="submit-btn" id="submitBtn">Subscribe</button>
+            </form>
+            
+            <div class="success-message" id="successMessage">
+                ✓ Thank you for subscribing! We'll be in touch soon.
+            </div>
+        </div>
+    </div>
+
+    <iframe name="hiddenFrame" id="hiddenFrame"></iframe>
+
+    <script>
+        // Growth Chart
+        const growthCtx = document.getElementById('growthChart').getContext('2d');
+        const growthChart = new Chart(growthCtx, {
+            type: 'line',
+            data: {
+                labels: ['2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: 'Market Value (£ Billions)',
+                    data: [30, 32, 34, 36, 38, 40],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#4CAF50',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#2E7D32',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return '£' + context.parsed.y + 'B';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 25,
+                        max: 45,
+                        ticks: {
+                            callback: function(value) {
+                                return '£' + value + 'B';
+                            },
+                            color: '#666',
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#666',
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Market Share Chart
+        const marketCtx = document.getElementById('marketShareChart').getContext('2d');
+        const marketShareChart = new Chart(marketCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Klarna', 'Clearpay', 'PayPal', 'Others', 'Halal Options'],
+                datasets: [{
+                    data: [35, 28, 22, 15, 0],
+                    backgroundColor: [
+                        '#FFB3C7',  // Klarna pink
+                        '#00C9A7',  // Clearpay teal/turquoise
+                        '#0070BA',  // PayPal blue
+                        '#C8E6C9',  // Others (light green)
+                        '#ff9800'   // Halal options (orange)
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            color: '#666',
+                            font: {
+                                size: 11
+                            },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#2E7D32',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        // Email form submission
+        document.getElementById('mailingForm').addEventListener('submit', function(e) {
+            const emailInput = document.getElementById('emailInput');
+            const successMessage = document.getElementById('successMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Subscribing...';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                successMessage.style.opacity = '0';
+                setTimeout(() => {
+                    successMessage.style.transition = 'opacity 0.5s ease';
+                    successMessage.style.opacity = '1';
+                }, 10);
+                
+                emailInput.value = '';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Subscribe';
+                
+                setTimeout(() => {
+                    successMessage.style.opacity = '0';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            }, 1000);
+        });
+
+        // Animated counters
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const prefix = element.getAttribute('data-prefix') || '';
+            const suffix = element.getAttribute('data-suffix') || '';
+            const customText = element.getAttribute('data-text');
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                    
+                    // Use custom text if provided, otherwise use the number
+                    if (customText && current === target) {
+                        element.textContent = customText;
+                    } else {
+                        element.textContent = prefix + Math.floor(current) + suffix;
+                    }
+                } else {
+                    element.textContent = prefix + Math.floor(current) + suffix;
+                }
+            }, 16);
+        }
+
+        // Start animations on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.stat-number[data-target]').forEach(element => {
+                    animateCounter(element);
+                });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
