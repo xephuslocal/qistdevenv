@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -396,11 +396,11 @@
                     id="emailInput"
                     name="entry.1108286257"
                 >
-                <button type="submit" class="submit-btn" id="submitBtn">Subscribe</button>
+                <button type="submit" class="submit-btn" id="submitBtn">Join</button>
             </form>
             
             <div class="success-message" id="successMessage">
-                ✓ Thank you for subscribing! We'll be in touch soon.
+                ✓ Thank you for joining the waiting list! We'll be in touch soon.
             </div>
         </div>
     </div>
@@ -417,7 +417,7 @@
             const submitBtn = document.getElementById('submitBtn');
             
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Subscribing...';
+            submitBtn.textContent = 'Joining...';
             
             setTimeout(() => {
                 successMessage.style.display = 'block';
@@ -429,7 +429,7 @@
                 
                 emailInput.value = '';
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Subscribe';
+                submitBtn.textContent = 'Join';
                 
                 setTimeout(() => {
                     successMessage.style.opacity = '0';
